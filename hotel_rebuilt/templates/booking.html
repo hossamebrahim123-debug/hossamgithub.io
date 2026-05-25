@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Book Your Stay — The Grand{% endblock %}
+
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image2.webp') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Reservations</p>
+        <h1>Book Your <em>Stay</em></h1>
+    </div>
+</div>
+
+<section class="booking-section">
+    <div class="booking-inner">
+        <div class="booking-info">
+            <h3>What's Included</h3>
+            <ul class="booking-perks">
+                <li><i class="fa-solid fa-check-circle"></i> Complimentary breakfast</li>
+                <li><i class="fa-solid fa-check-circle"></i> Access to spa & fitness suite</li>
+                <li><i class="fa-solid fa-check-circle"></i> Free cancellation up to 48hrs</li>
+                <li><i class="fa-solid fa-check-circle"></i> Late checkout on request</li>
+                <li><i class="fa-solid fa-check-circle"></i> Concierge service</li>
+            </ul>
+            <div class="booking-price-guide">
+                <h4>Price Guide</h4>
+                <div class="price-row"><span>Deluxe Suite</span><span>from £199/night</span></div>
+                <div class="price-row"><span>Presidential Suite</span><span>from £450/night</span></div>
+            </div>
+        </div>
+
+        <form class="booking-form" action="{{ url_for('booking') }}" method="POST">
+            <h2>Your Reservation</h2>
+
+            <div class="form-group">
+                <label>Room Type</label>
+                <select name="room_type" required>
+                    <option value="">Select a room...</option>
+                    <option value="Deluxe Suite" {% if request.args.get('room') == 'deluxe' %}selected{% endif %}>Deluxe Suite — £199/night</option>
+                    <option value="Presidential Suite" {% if request.args.get('room') == 'presidential' %}selected{% endif %}>Presidential Suite — £450/night</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Check In</label>
+                    <input type="date" name="checkin" value="{{ request.args.get('checkin', '') }}" required>
+                </div>
+                <div class="form-group">
+                    <label>Check Out</label>
+                    <input type="date" name="checkout" value="{{ request.args.get('checkout', '') }}" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Guests</label>
+                <select name="guests" required>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3+ Guests</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Special Requests <span style="font-weight:300;font-size:0.85rem;">(optional)</span></label>
+                <textarea name="requests" rows="3" placeholder="Any special requirements or preferences..."></textarea>
+            </div>
+
+            <input type="hidden" name="total" value="0">
+
+            {% if not session.get('user_name') %}
+            <p class="booking-notice"><i class="fa-solid fa-circle-info"></i> <a href="{{ url_for('login') }}">Log in</a> to save your booking history.</p>
+            {% endif %}
+
+            <button type="submit" class="btn-gold" style="width:100%;justify-content:center;">Confirm Reservation</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
