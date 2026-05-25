@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="page-hero">
+    <h1>Farm Weather</h1>
+    <p>Check the local weather before heading to the farm</p>
+</div>
+
+<section class="weather-section">
+    <div class="container">
+        <div class="weather-card">
+            <h2>Check the Weather</h2>
+            <p>Enter a city to see current weather conditions — perfect for planning your farm visit or delivery.</p>
+            <div class="weather-input">
+                <input type="text" id="cityInput" placeholder="Enter a city name...">
+                <button class="btn btn-primary" onclick="checkWeather()">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <div id="weatherResult"></div>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+
+<script src="{{ url_for('static', filename='js/weather.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Details — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="page-hero">
+    <h1>Delivery Details</h1>
+    <p>Where shall we deliver your fresh order?</p>
+</div>
+
+<section class="form-page">
+    <div class="container">
+        <div class="form-card">
+            <h1>Your Delivery Address</h1>
+            <p>Please enter a valid UK address for your delivery.</p>
+
+            <form action="{{ url_for('delivery_details') }}" method="POST">
+                <div class="form-group">
+                    <label for="address_line_1">Address Line 1</label>
+                    <input type="text" id="address_line_1" name="address_line_1" placeholder="House number and street name" required>
+                </div>
+                <div class="form-group">
+                    <label for="address_line_2">Address Line 2 <span style="font-weight:400;color:var(--text-light)">(optional)</span></label>
+                    <input type="text" id="address_line_2" name="address_line_2" placeholder="Apartment, flat, or building name">
+                </div>
+                <div class="form-group">
+                    <label for="town_city">Town / City</label>
+                    <input type="text" id="town_city" name="town_city" placeholder="e.g. Manchester" required>
+                </div>
+                <div class="form-group">
+                    <label for="postcode">Postcode</label>
+                    <input type="text" id="postcode" name="postcode" placeholder="e.g. M1 2AB" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+                    <i class="fa-solid fa-truck"></i>&nbsp; Confirm Delivery
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="page-hero">
+    <h1>Edit Product</h1>
+    <p>Update your product listing details</p>
+</div>
+
+<section class="form-page">
+    <div class="container">
+        <div class="product-form-card">
+            <h2>Update Details</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {# 0=id,1=producer_id,2=name,3=weight,4=price,5=info,6=image,7=stock #}
+            <form method="POST">
+                <div class="form-group">
+                    <label for="product_name">Product Name</label>
+                    <input type="text" id="product_name" name="product_name" value="{{ product[2] }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_weight">Weight / Size</label>
+                    <input type="text" id="product_weight" name="product_weight" value="{{ product[3] }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_price">Price (£)</label>
+                    <input type="number" id="product_price" name="product_price" step="0.01" value="{{ product[4] }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock Quantity</label>
+                    <input type="number" id="stock" name="stock" min="0" value="{{ product[7] if product[7] else 0 }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_info">Description</label>
+                    <textarea id="product_info" name="product_info" rows="4" required>{{ product[5] }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image_url">Image URL</label>
+                    <input type="text" id="image_url" name="image_url" value="{{ product[6] }}" required>
+                </div>
+
+                <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                    <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center;">
+                        <i class="fa-solid fa-check"></i>&nbsp; Save Changes
+                    </button>
+                    <a href="{{ url_for('my_products') }}" class="btn btn-outline" style="flex:1;justify-content:center;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+            <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--cream-dark);">
+                <p style="font-size:0.88rem;color:var(--text-light);margin-bottom:0.75rem;">Danger zone — this action cannot be undone.</p>
+                <form action="/delete-product/{{ product[0] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?')">
+                    <button type="submit" class="btn" style="background:#FEE2E2;color:#DC2626;border:1px solid #FCA5A5;">
+                        <i class="fa-solid fa-trash"></i>&nbsp; Delete Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+</body>
+</html>

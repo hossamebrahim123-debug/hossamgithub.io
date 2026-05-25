@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producer Register — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<div class="auth-page">
+    <div class="auth-visual">
+        <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80" alt="Farm">
+        <div class="auth-visual-content">
+            <h2>"List your produce.<br>Reach more people.<br>Grow together."</h2>
+            <p>Join Farm Fresh as a local producer.</p>
+        </div>
+    </div>
+
+    <div class="auth-panel">
+        <div class="auth-box">
+            <a href="{{ url_for('home') }}" class="auth-logo">🌿 Farm Fresh</a>
+            <h2>Producer Registration</h2>
+            <p>Create your producer account below.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="/producer_registar" method="POST">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" id="surname" name="surname" placeholder="Enter your surname" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+44 7700 900000" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Farm Location</label>
+                    <input type="text" id="location" name="location" placeholder="e.g. Manchester, UK" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                        <button type="button" class="toggle-pw" onclick="togglePassword('password', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="Repeat your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register as Producer &nbsp;<i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+
+            <p class="auth-extra">Already have an account? <a href="/producer_login">Sign in here</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') { input.type = 'text'; icon.className = 'fa-solid fa-eye-slash'; }
+    else { input.type = 'password'; icon.className = 'fa-solid fa-eye'; }
+}
+</script>
+</body>
+</html>
