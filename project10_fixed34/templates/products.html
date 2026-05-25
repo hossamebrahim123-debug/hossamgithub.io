@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+{% include 'navbar.html' %}
+
+<div class="page-hero">
+    <h1>Our Fresh Harvest</h1>
+    <p>Straight from the fields — picked at their very best</p>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div style="max-width:1100px;margin:1rem auto;padding:0 20px;">
+            {% for category, message in messages %}
+                <div style="background:#FEE2E2;color:#DC2626;padding:12px 20px;border-radius:8px;margin-bottom:8px;font-weight:500;">
+                    <i class="fa-solid fa-circle-exclamation"></i> {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
+<section class="products-page">
+    <div class="container">
+        <div class="product-grid">
+            {% for product in products %}
+            {# columns: 0=id, 1=producer_id, 2=product_name, 3=product_weight, 4=product_price, 5=product_info, 6=image_url, 7=stock #}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product[6] %}
+                        <img src="{{ product[6] }}" alt="{{ product[2] }}">
+                    {% else %}
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80" alt="Fresh produce">
+                    {% endif %}
+                    {% if not product[7] or product[7] <= 0 %}
+                        <div class="out-of-stock-overlay">Out of Stock</div>
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <div class="product-meta">
+                        <span class="category">Fresh Produce</span>
+                        <span class="weight">{{ product[3] }}</span>
+                    </div>
+                    <h3>{{ product[2] }}</h3>
+                    <p class="description">{{ product[5] }}</p>
+                    <p style="font-size:0.85rem; color:#888; margin-bottom:0.5rem;">
+                        {% if product[7] and product[7] > 0 %}
+                            {{ product[7] }} in stock
+                        {% else %}
+                            Out of stock
+                        {% endif %}
+                    </p>
+                    <div class="product-footer">
+                        <span class="price">£{{ "%.2f"|format(product[4]) }}</span>
+                        {% if product[7] and product[7] > 0 %}
+                        <form action="/add-to-cart" method="POST" style="margin:0;">
+                            <input type="hidden" name="product_name" value="{{ product[2] }}">
+                            <input type="hidden" name="product_price" value="{{ product[4] }}">
+                            <button type="submit" class="add-btn">
+                                <i class="fa-solid fa-basket-shopping"></i> Add
+                            </button>
+                        </form>
+                        {% else %}
+                        <button class="add-btn disabled" disabled>Sold Out</button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div style="grid-column:1/-1; text-align:center; padding:4rem; color:var(--text-light);">
+                <i class="fa-solid fa-seedling" style="font-size:3rem; margin-bottom:1rem; color:var(--green-pale);"></i>
+                <p style="font-size:1.1rem;">No products available right now. Check back soon!</p>
+                <a href="{{ url_for('home') }}" class="btn btn-outline" style="margin-top:1.5rem;">Back to Home</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

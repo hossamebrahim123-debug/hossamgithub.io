@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producer Login — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<div class="auth-page">
+    <div class="auth-visual">
+        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=900&q=80" alt="Farm">
+        <div class="auth-visual-content">
+            <h2>"Grow your reach.<br>Share your harvest<br>with the world."</h2>
+            <p>The producer portal for Farm Fresh.</p>
+        </div>
+    </div>
+
+    <div class="auth-panel">
+        <div class="auth-box">
+            <a href="{{ url_for('home') }}" class="auth-logo">🌿 Farm Fresh</a>
+            <h2>Producer Login</h2>
+            <p>Sign in to manage your products and listings.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form action="/producer_login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-pw" onclick="togglePassword('password', this)">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In &nbsp;<i class="fa-solid fa-arrow-right"></i></button>
+            </form>
+
+            <p class="auth-extra">Not a producer yet? <a href="/producer_registar">Register here</a></p>
+            <div class="auth-divider">or</div>
+            <p class="auth-extra">Are you a customer? <a href="/login">Customer Login</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(id, btn) {
+    const input = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (input.type === 'password') { input.type = 'text'; icon.className = 'fa-solid fa-eye-slash'; }
+    else { input.type = 'password'; icon.className = 'fa-solid fa-eye'; }
+}
+</script>
+</body>
+</html>

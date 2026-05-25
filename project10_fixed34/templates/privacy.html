@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Farm Fresh</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="page-hero">
+    <h1>Privacy Policy</h1>
+    <p>How we collect, use and protect your data</p>
+</div>
+
+<section class="policy-page">
+    <div class="container">
+        <div class="policy-card">
+            <h2>Privacy Policy</h2>
+            <p>At <strong>Farm Fresh</strong>, your privacy is important to us. This policy explains what personal data we collect, how we use it, and your rights.</p>
+
+            <h3>1. Information We Collect</h3>
+            <ul>
+                <li>Personal information such as name, email, and contact details when you register or make a purchase.</li>
+                <li>Usage data like IP address, browser type, and pages visited.</li>
+            </ul>
+
+            <h3>2. How We Use Your Information</h3>
+            <ul>
+                <li>To process orders and provide customer service.</li>
+                <li>To send updates and promotional material (only if you opted in).</li>
+                <li>To improve our website and services.</li>
+            </ul>
+
+            <h3>3. Sharing Your Information</h3>
+            <p>We will never sell your personal information. We may share data with trusted third parties for the purpose of fulfilling orders or legal requirements.</p>
+
+            <h3>4. Your Rights</h3>
+            <p>You have the right to access, correct, or delete your personal data. Contact us at <a href="mailto:info@farmfresh.co.uk">info@farmfresh.co.uk</a> for any privacy concerns.</p>
+
+            <h3>5. Cookies</h3>
+            <p>Our website uses cookies to enhance user experience. You can choose to disable cookies in your browser settings, though some features may not work properly.</p>
+
+            <p>Thank you for trusting <strong>Farm Fresh</strong> with your information.</p>
+        </div>
+    </div>
+</section>
+
+{% include 'footer.html' %}
+</body>
+</html>
