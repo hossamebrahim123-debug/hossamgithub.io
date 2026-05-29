@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Search Students{% endblock %}
+{% block content %}
+<style>
+.search-box { background: var(--surface); border-radius: 14px; padding: 28px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 24px; }
+.search-input-wrap { display: flex; gap: 10px; }
+.search-input-wrap input { flex: 1; padding: 12px 16px; border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; }
+.search-input-wrap input:focus { border-color: var(--accent); }
+.result-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: var(--surface); border-radius: 10px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: box-shadow 0.2s; }
+.result-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.result-name { font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+.result-name i { color: var(--accent); }
+.empty-state { text-align: center; padding: 60px; color: var(--text-mid); }
+.empty-state i { font-size: 3rem; margin-bottom: 16px; color: var(--border); display: block; }
+</style>
+{% block extra_css %}{% endblock %}
+
+<div class="main">
+    <div class="page-header">
+        <div class="page-title"><i class="fa-solid fa-magnifying-glass"></i> Search Students</div>
+    </div>
+
+    <div class="search-box">
+        <form action="{{ url_for('search') }}" method="GET" class="search-input-wrap">
+            <input type="text" name="q" value="{{ query }}" placeholder="Type a student name..." autofocus>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i> Search</button>
+        </form>
+    </div>
+
+    {% if query %}
+        {% if results %}
+            <p style="font-size:0.85rem;color:var(--text-mid);margin-bottom:16px;">{{ results|length }} result(s) for "<strong>{{ query }}</strong>"</p>
+            {% for name in results %}
+            <div class="result-item">
+                <div class="result-name"><i class="fa-solid fa-user-graduate"></i> {{ name['name'] }} — Year {{ name['year_group'] }}</div>
+                <a href="{{ url_for('student_profile', student_id=name['id']) }}" class="btn btn-outline" style="padding:7px 14px;font-size:0.8rem;">
+    View Profile <i class="fa-solid fa-arrow-right"></i>
+</a>
+                </a>
+            </div>
+
+            {% endfor %}
+            <!-- If exact match show profile link -->
+            {% if results|length == 1 %}
+            {% endif %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fa-solid fa-user-slash"></i>
+                <p>No students found for "<strong>{{ query }}</strong>"</p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-state">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>Enter a student name above to search</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

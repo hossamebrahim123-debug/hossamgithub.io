@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}{{ name }} — Profile{% endblock %}
+{% block content %}
+<style>
+.profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; margin-bottom: 24px; }
+.profile-card { background: var(--surface); border-radius: 14px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.profile-avatar { width: 64px; height: 64px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--accent); margin-bottom: 16px; }
+.profile-name { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+.profile-meta { color: var(--text-mid); font-size: 0.85rem; margin-bottom: 20px; }
+.profile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.profile-stat { background: var(--bg); border-radius: 10px; padding: 14px; text-align: center; }
+.profile-stat-val { font-size: 1.5rem; font-weight: 700; }
+.profile-stat-val.green { color: var(--green); }
+.profile-stat-val.red { color: var(--red); }
+.profile-stat-val.gold { color: var(--gold); }
+.profile-stat-label { font-size: 0.75rem; color: var(--text-mid); margin-top: 2px; }
+
+.flag-alert { background: var(--red-light); border-left: 4px solid var(--red); color: var(--red); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+.grades-table { width: 100%; border-collapse: collapse; }
+.grades-table th { background: var(--bg); padding: 10px 14px; text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-mid); font-weight: 600; }
+.grades-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+.badge-pass { background: var(--green-light); color: var(--green); }
+.badge-fail { background: var(--red-light); color: var(--red); }
+
+@media(max-width:900px){ .profile-grid{grid-template-columns:1fr;} }
+</style>
+
+<div class="main">
+    <div class="page-header">
+        <div class="page-title"><i class="fa-solid fa-user-graduate"></i> Student Profile</div>
+        <div style="display:flex;gap:8px;">
+            <a href="{{ url_for('edit_student', student_id=student_id) }}" class="btn btn-outline">
+                <i class="fa-solid fa-pen"></i> Edit
+            </a>
+            <a href="{{ url_for('search') }}" class="btn btn-outline">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    {% if flags %}
+    <div style="margin-bottom:20px;">
+        {% for flag in flags %}
+        <div class="flag-alert"><i class="fa-solid fa-triangle-exclamation"></i> {{ flag }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="profile-grid">
+        <div class="profile-card">
+            <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+            <div class="profile-name">{{ name }}</div>
+            <div class="profile-meta">Year {{ year }} &nbsp;·&nbsp; {{ gender }}</div>
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-val gold">{{ avg_grade }}</div>
+                    <div class="profile-stat-label">Avg Grade</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-val {% if attendance >= 80 %}green{% else %}red{% endif %}">{{ attendance }}%</div>
+                    <div class="profile-stat-label">Attendance</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-val green">{{ pass_count }}</div>
+                    <div class="profile-stat-label">Passing</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-val red">{{ fail_count }}</div>
+                    <div class="profile-stat-label">Failing</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div style="font-size:0.9rem;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+                <i class="fa-solid fa-chart-bar" style="color:var(--accent);"></i> Grade Breakdown
+            </div>
+            <img src="data:image/png;base64,{{ chart }}" alt="Student Grades" style="width:100%;border-radius:6px;">
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="font-size:0.9rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-table" style="color:var(--accent);"></i> Subject Results
+        </div>
+        <table class="grades-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                    <th>Attendance</th>
+                    <th>Result</th>
+                    <th>Teacher</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for g in grades %}
+                <tr>
+                    <td><strong>{{ g.Subject }}</strong></td>
+                    <td>{{ g.Grade }}</td>
+                    <td>{{ g.Attendance_Percentage }}%</td>
+                    <td><span class="badge badge-{{ g.Pass_Fail|lower }}">{{ g.Pass_Fail }}</span></td>
+                    <td>{{ g.Teacher }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

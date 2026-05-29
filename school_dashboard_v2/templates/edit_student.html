@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Edit Student{% endblock %}
+{% block content %}
+<style>
+.form-card { background: var(--surface); border-radius: 14px; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); max-width: 700px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+.grades-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+</style>
+
+<div class="main">
+    <div class="page-header">
+        <div class="page-title"><i class="fa-solid fa-pen"></i> Edit Student</div>
+        <a href="{{ url_for('student_profile', student_id=student['id']) }}" class="btn btn-outline">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form action="{{ url_for('edit_student', student_id=student['id']) }}" method="POST">
+
+            <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:18px;color:var(--text-mid);">STUDENT DETAILS</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="{{ student['name'] }}" required>
+                </div>
+                <div class="form-group">
+                    <label>Year Group</label>
+                    <select name="year_group" required>
+                        {% for y in [7,8,9,10,11] %}
+                        <option value="{{ y }}" {% if y == student['year_group'] %}selected{% endif %}>Year {{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select name="gender" required>
+                        <option value="Male" {% if student['gender'] == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if student['gender'] == 'Female' %}selected{% endif %}>Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Attendance %</label>
+                    <input type="number" name="attendance" min="0" max="100" value="{{ grades[0]['attendance'] if grades else 90 }}" required>
+                </div>
+            </div>
+
+            <hr class="section-divider">
+            <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:18px;color:var(--text-mid);">GRADES & TEACHERS</h3>
+
+            <div class="grades-grid">
+                {% for g in grades %}
+                <div class="card" style="padding:16px;">
+                    <div style="font-weight:600;font-size:0.88rem;margin-bottom:12px;">{{ g['subject'] }}</div>
+                    <div class="form-group" style="margin-bottom:10px;">
+                        <label>Grade (0-100)</label>
+                        <input type="number" name="grade_{{ g['subject'] }}" min="0" max="100" value="{{ g['grade'] }}" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>Teacher</label>
+                        <input type="text" name="teacher_{{ g['subject'] }}" value="{{ g['teacher'] }}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <hr class="section-divider">
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;padding:12px;">
+                <i class="fa-solid fa-floppy-disk"></i> Save Changes
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up — School Dashboard{% endblock %}
+{% block content %}
+<style>
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--bg); padding: 24px; }
+.auth-box { background: white; border-radius: 16px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+.auth-icon { width: 56px; height: 56px; background: var(--green-light); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--green); font-size: 1.5rem; margin-bottom: 20px; }
+.auth-box h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; }
+.auth-box p { color: var(--text-mid); font-size: 0.88rem; margin-bottom: 28px; }
+.auth-switch { text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-mid); }
+.auth-switch a { color: var(--accent); font-weight: 500; }
+</style>
+
+<div class="auth-page">
+    <div class="auth-box">
+        <div class="auth-icon"><i class="fa-solid fa-user-plus"></i></div>
+        <h2>Create Account</h2>
+        <p>Register to access the school dashboard</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}{% for category, message in messages %}
+                <div class="flash flash-{{ category }}" style="margin-bottom:16px;">{{ message }}</div>
+            {% endfor %}{% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('signup') }}" method="POST">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" required placeholder="Mr Smith">
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required placeholder="teacher@school.co.uk">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Create a password">
+            </div>
+            <button type="submit" class="btn btn-success" style="width:100%;justify-content:center;padding:12px;">
+                <i class="fa-solid fa-check"></i> Create Account
+            </button>
+        </form>
+        <div class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Sign in</a></div>
+    </div>
+</div>
+{% endblock %}
