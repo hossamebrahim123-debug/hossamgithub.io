@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Booking Confirmed — The Grand{% endblock %}
+{% block content %}
+<style>
+.confirm-page { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 120px 40px 80px; background: var(--cream); }
+.confirm-box { background: white; max-width: 600px; width: 100%; padding: 60px; text-align: center; }
+.confirm-icon { width: 80px; height: 80px; background: var(--green-light, #d4edda); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; font-size: 2rem; color: #28a745; }
+.confirm-ref { font-family: var(--font-display); font-size: 2rem; color: var(--gold); letter-spacing: 3px; margin: 16px 0; }
+.confirm-details { border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 24px 0; margin: 28px 0; text-align: left; }
+.confirm-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.92rem; }
+.confirm-row span:first-child { color: var(--text-light); }
+.confirm-row span:last-child { font-weight: 500; }
+</style>
+<div class="confirm-page">
+    <div class="confirm-box">
+        <div class="confirm-icon"><i class="fa-solid fa-check"></i></div>
+        <p class="section-eyebrow">Booking Confirmed</p>
+        <h2 style="font-family:var(--font-display);font-size:2rem;">Your reservation is confirmed</h2>
+        <div class="confirm-ref">{{ reference }}</div>
+        <p style="color:#888;font-size:0.88rem;">Please save your booking reference number</p>
+        <div class="confirm-details">
+            <div class="confirm-row"><span>Room</span><span>{{ room_type }}</span></div>
+            <div class="confirm-row"><span>Check In</span><span>{{ checkin }}</span></div>
+            <div class="confirm-row"><span>Check Out</span><span>{{ checkout }}</span></div>
+            <div class="confirm-row"><span>Guests</span><span>{{ guests }}</span></div>
+            <div class="confirm-row"><span>Nights</span><span>{{ nights }}</span></div>
+            <div class="confirm-row"><span>Total</span><span style="color:var(--gold);font-weight:700;">£{{ "%.2f"|format(total) }}</span></div>
+        </div>
+        <p style="font-size:0.85rem;color:#888;margin-bottom:28px;">A confirmation email will be sent to your registered address. We look forward to welcoming you to The Grand.</p>
+        {% if session.get('user_id') %}
+        <a href="{{ url_for('my_bookings') }}" class="btn-gold" style="margin-right:12px;">View My Bookings</a>
+        {% endif %}
+        <a href="{{ url_for('home') }}" class="btn-outline">Return Home</a>
+    </div>
+</div>
+{% endblock %}

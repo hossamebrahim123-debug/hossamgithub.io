@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Book Your Stay — The Grand{% endblock %}
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image2.webp') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Reservations</p>
+        <h1>Book Your <em>Stay</em></h1>
+    </div>
+</div>
+
+<section class="booking-section">
+    <div class="booking-inner">
+        <div class="booking-info">
+            <h3>What's Included</h3>
+            <ul class="booking-perks">
+                <li><i class="fa-solid fa-check-circle"></i> Complimentary breakfast</li>
+                <li><i class="fa-solid fa-check-circle"></i> Access to spa & fitness suite</li>
+                <li><i class="fa-solid fa-check-circle"></i> Free cancellation up to 48hrs</li>
+                <li><i class="fa-solid fa-check-circle"></i> Late checkout on request</li>
+                <li><i class="fa-solid fa-check-circle"></i> Concierge service</li>
+            </ul>
+            <div class="booking-price-guide">
+                <h4>Price Guide</h4>
+                <div class="price-row"><span>Deluxe Suite</span><span>£199/night</span></div>
+                <div class="price-row"><span>Presidential Suite</span><span>£450/night</span></div>
+            </div>
+            <div style="margin-top:24px;padding:16px;background:var(--cream-dark);border-left:3px solid var(--gold);">
+                <p style="font-size:0.82rem;color:var(--text-mid);">
+                    <i class="fa-solid fa-circle-info" style="color:var(--gold);margin-right:6px;"></i>
+                    Free cancellation available up to 48 hours before check-in. <a href="{{ url_for('cancellation') }}" style="color:var(--gold);">View full policy</a>
+                </p>
+            </div>
+        </div>
+
+        <form class="booking-form" action="{{ url_for('booking') }}" method="POST" id="bookingForm">
+            <h2>Your Reservation</h2>
+            <div id="availMsg" style="display:none;padding:12px 16px;border-radius:4px;margin-bottom:16px;font-size:0.85rem;"></div>
+
+            <div class="form-group">
+                <label>Room Type</label>
+                <select name="room_type" id="roomType" required>
+                    <option value="">Select a room...</option>
+                    <option value="Deluxe Suite" {% if room == 'deluxe' %}selected{% endif %}>Deluxe Suite — £199/night</option>
+                    <option value="Presidential Suite" {% if room == 'presidential' %}selected{% endif %}>Presidential Suite — £450/night</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Check In</label>
+                    <input type="date" name="checkin" id="checkin" required>
+                </div>
+                <div class="form-group">
+                    <label>Check Out</label>
+                    <input type="date" name="checkout" id="checkout" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Guests</label>
+                <select name="guests" required>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3+ Guests</option>
+                </select>
+            </div>
+
+            <div id="priceSummary" style="display:none;background:var(--cream);padding:16px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;font-size:0.88rem;margin-bottom:6px;">
+                    <span id="nightsLabel"></span><span id="priceCalc"></span>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-family:var(--font-display);font-size:1.2rem;border-top:1px solid #ddd;padding-top:8px;margin-top:8px;">
+                    <span>Total</span><span id="totalPrice" style="color:var(--gold);"></span>
+                </div>
+            </div>
+
+            {% if not session.get('user_name') %}
+            <p class="booking-notice"><i class="fa-solid fa-circle-info"></i> <a href="{{ url_for('login') }}">Log in</a> to save your booking history.</p>
+            {% endif %}
+
+            <button type="submit" class="btn-gold" style="width:100%;justify-content:center;" id="submitBtn">Confirm Reservation</button>
+        </form>
+    </div>
+</section>
+
+{% block extra_js %}
+<script>
+const prices = { 'Deluxe Suite': 199, 'Presidential Suite': 450 };
+
+function updatePrice() {
+    const room = document.getElementById('roomType').value;
+    const checkin = document.getElementById('checkin').value;
+    const checkout = document.getElementById('checkout').value;
+    if (room && checkin && checkout) {
+        const ci = new Date(checkin), co = new Date(checkout);
+        const nights = Math.round((co - ci) / (1000*60*60*24));
+        if (nights > 0) {
+            const total = prices[room] * nights;
+            document.getElementById('nightsLabel').textContent = `${nights} night(s) x £${prices[room]}`;
+            document.getElementById('priceCalc').textContent = `£${total}`;
+            document.getElementById('totalPrice').textContent = `£${total.toFixed(2)}`;
+            document.getElementById('priceSummary').style.display = 'block';
+        }
+    }
+}
+
+document.getElementById('roomType').addEventListener('change', updatePrice);
+document.getElementById('checkin').addEventListener('change', updatePrice);
+document.getElementById('checkout').addEventListener('change', updatePrice);
+
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('checkin').min = today;
+document.getElementById('checkout').min = today;
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Cancellation Policy — The Grand{% endblock %}
+{% block content %}
+<section style="padding:120px 60px 80px;background:var(--cream);min-height:80vh;">
+    <div style="max-width:800px;margin:0 auto;">
+        <p class="section-eyebrow">Policies</p>
+        <h2 style="font-family:var(--font-display);font-size:2.5rem;margin-bottom:8px;">Cancellation <em>Policy</em></h2>
+        <p style="color:var(--text-light);margin-bottom:48px;">Last updated: January 2026</p>
+
+        {% for title, content in [
+            ('Standard Cancellations', 'Reservations cancelled more than 48 hours before the scheduled check-in date will receive a full refund. No cancellation fee will be applied.'),
+            ('Late Cancellations', 'Reservations cancelled within 48 hours of the scheduled check-in date will be charged one night\'s accommodation at the full room rate.'),
+            ('No-Show Policy', 'Guests who do not arrive on their scheduled check-in date without prior notice will be charged the full cost of the first night\'s accommodation. The remainder of the booking will be automatically cancelled.'),
+            ('Non-Refundable Rates', 'Some promotional and special offer rates are booked on a non-refundable basis. These will be clearly indicated at the time of booking. No refund will be issued for cancellations or amendments to non-refundable reservations.'),
+            ('How to Cancel', 'To cancel a reservation, please log in to your account and visit the My Bookings section, or contact our reservations team directly at stay@thegrand.co.uk or by calling +44 207 123 4567. Please have your booking reference number ready.'),
+            ('Refund Processing', 'Approved refunds will be processed within 5-10 working days and returned to the original payment method used at the time of booking.'),
+        ] %}
+        <div style="background:white;padding:36px;margin-bottom:16px;">
+            <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--gold);margin-bottom:12px;">{{ title }}</h3>
+            <p style="color:var(--text-light);line-height:1.9;font-size:0.92rem;">{{ content }}</p>
+        </div>
+        {% endfor %}
+
+        <div style="background:var(--dark);padding:36px;margin-top:32px;text-align:center;">
+            <p style="color:#ccc;margin-bottom:20px;font-size:0.9rem;">Have a question about your booking?</p>
+            <a href="{{ url_for('contact') }}" class="btn-gold">Contact Us</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

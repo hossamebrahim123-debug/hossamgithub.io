@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Special Offers — The Grand{% endblock %}
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image3.jpg') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Exclusive Deals</p>
+        <h1>Special <em>Offers</em></h1>
+    </div>
+</div>
+
+<section style="padding:80px 60px;background:var(--cream);">
+    <div style="max-width:1100px;margin:0 auto;">
+        <div style="text-align:center;margin-bottom:60px;">
+            <p class="section-eyebrow">Limited Time</p>
+            <h2 style="font-family:var(--font-display);font-size:2.5rem;">Curated Packages for <em>Every Occasion</em></h2>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+            {% for title, badge, desc, price, features, room in [
+                ('Summer Escape', 'SAVE 20%', 'Enjoy a complimentary third night when you book two nights in our Deluxe Suite this summer. The perfect way to extend your London experience.', 'From £159/night', ['Complimentary third night', 'Daily breakfast for two', 'Late checkout until 2pm', 'Welcome bottle of champagne'], 'deluxe'),
+                ('Anniversary Package', 'MOST POPULAR', 'Celebrate your special occasion in unrivalled style with our romantic anniversary package, tailored to create memories that last a lifetime.', 'From £520/night', ['Presidential Suite for two nights', 'Rose petals and champagne on arrival', 'Couples spa treatment', 'Private candlelit dinner'], 'presidential'),
+                ('Business & Leisure', 'WEEKDAY DEAL', 'Combine work and relaxation with our mid-week offer. Stay Monday to Thursday and enjoy exclusive rates alongside our full range of business amenities.', 'From £179/night', ['High-speed Wi-Fi included', 'Access to business centre', 'Complimentary breakfast', 'Evening cocktail reception'], 'deluxe'),
+                ('Winter Warmth', 'SEASONAL OFFER', 'Escape the winter chill with our seasonal package, featuring warm welcome drinks, cosy turndown service, and exclusive dining privileges throughout your stay.', 'From £220/night', ['Hot toddy on arrival', 'Cosy turndown service nightly', 'Three-course dinner included', 'Access to heated pool and spa'], 'deluxe'),
+            ] %}
+            <div style="background:white;overflow:hidden;">
+                <div style="background:var(--dark);padding:32px;position:relative;">
+                    <span style="position:absolute;top:20px;right:20px;background:var(--gold);color:var(--dark);font-size:0.68rem;letter-spacing:2px;padding:5px 12px;font-weight:600;">{{ badge }}</span>
+                    <h3 style="font-family:var(--font-display);font-size:1.8rem;color:white;margin-bottom:8px;">{{ title }}</h3>
+                    <p style="color:#888;font-size:0.88rem;">{{ desc }}</p>
+                </div>
+                <div style="padding:32px;">
+                    <ul style="list-style:none;margin-bottom:24px;">
+                        {% for f in features %}
+                        <li style="padding:8px 0;border-bottom:1px solid var(--cream-dark);font-size:0.88rem;display:flex;align-items:center;gap:10px;"><i class="fa-solid fa-check" style="color:var(--gold);"></i> {{ f }}</li>
+                        {% endfor %}
+                    </ul>
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <span style="font-family:var(--font-display);font-size:1.4rem;">{{ price }}</span>
+                        <a href="{{ url_for('booking') }}?room={{ room }}" class="btn-gold-sm">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="background:var(--dark);padding:48px;text-align:center;margin-top:48px;">
+            <p class="section-eyebrow">Bespoke Experiences</p>
+            <h3 style="font-family:var(--font-display);font-size:2rem;color:white;margin-bottom:16px;">Looking for something <em>different?</em></h3>
+            <p style="color:#888;max-width:500px;margin:0 auto 28px;font-size:0.92rem;">Our concierge team can create a completely personalised package tailored to your exact requirements. Contact us to discuss your perfect stay.</p>
+            <a href="{{ url_for('contact') }}" class="btn-gold">Speak to Our Concierge</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

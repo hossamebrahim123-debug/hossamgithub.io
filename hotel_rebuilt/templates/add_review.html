@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Write a Review — The Grand{% endblock %}
+{% block content %}
+<section style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:120px 40px 80px;background:var(--cream);">
+    <div style="background:white;max-width:560px;width:100%;padding:48px;">
+        <h2 style="font-family:var(--font-display);font-size:2rem;margin-bottom:8px;">Share Your Experience</h2>
+        <p style="color:var(--text-light);font-size:0.88rem;margin-bottom:32px;">We value every guest's feedback and appreciate you taking the time to share your stay with us.</p>
+        <form action="{{ url_for('add_review') }}" method="POST">
+            <div class="form-group"><label>Your Name</label><input type="text" name="fullname" required placeholder="John Smith"></div>
+            <div class="form-group"><label>Room Type</label>
+                <select name="room_type" required>
+                    <option value="">Select your room...</option>
+                    <option value="Deluxe Suite">Deluxe Suite</option>
+                    <option value="Presidential Suite">Presidential Suite</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Rating</label>
+                <select name="rating" required>
+                    <option value="5">★★★★★ Excellent</option>
+                    <option value="4">★★★★☆ Very Good</option>
+                    <option value="3">★★★☆☆ Good</option>
+                    <option value="2">★★☆☆☆ Fair</option>
+                    <option value="1">★☆☆☆☆ Poor</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Your Review</label><textarea name="comment" rows="5" required placeholder="Tell us about your stay..."></textarea></div>
+            <button type="submit" class="btn-gold" style="width:100%;justify-content:center;">Submit Review</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Reviews — The Grand{% endblock %}
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image2.webp') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Guest Experiences</p>
+        <h1>What Our Guests <em>Say</em></h1>
+    </div>
+</div>
+
+<section style="padding:80px 60px;background:var(--cream);">
+    <div style="max-width:1100px;margin:0 auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:48px;">
+            <div>
+                <p class="section-eyebrow">Guest Reviews</p>
+                <h2 style="font-family:var(--font-display);font-size:2rem;">{{ reviews|length }} Reviews</h2>
+            </div>
+            <a href="{{ url_for('add_review') }}" class="btn-gold"><i class="fa-solid fa-pen"></i> Write a Review</a>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+            {% for review in reviews %}
+            <div style="background:white;padding:36px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;">
+                    <div>
+                        <div style="font-weight:600;font-size:1rem;margin-bottom:4px;">{{ review['fullname'] }}</div>
+                        <div style="font-size:0.78rem;color:var(--text-light);">{{ review['room_type'] }}</div>
+                    </div>
+                    <div style="color:var(--gold);font-size:0.9rem;">
+                        {% for i in range(review['rating']) %}★{% endfor %}
+                        {% for i in range(5 - review['rating']) %}<span style="color:#ddd;">★</span>{% endfor %}
+                    </div>
+                </div>
+                <p style="color:var(--text-light);font-size:0.9rem;line-height:1.8;font-style:italic;">"{{ review['comment'] }}"</p>
+                <div style="margin-top:16px;font-size:0.75rem;color:var(--text-light);">{{ review['created_at'][:10] }}</div>
+            </div>
+            {% else %}
+            <div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-light);">
+                <p>No reviews yet. Be the first to share your experience.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

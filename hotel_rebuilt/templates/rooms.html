@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Rooms & Suites — The Grand{% endblock %}
+
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image1.webp') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Accommodation</p>
+        <h1>Rooms & <em>Suites</em></h1>
+    </div>
+</div>
+
+<section class="rooms-full">
+    <div class="rooms-full-inner">
+
+        <div class="room-detail-card">
+            <div class="rd-image" style="background-image: url('{{ url_for('static', filename='images/room1.jpg') }}')"></div>
+            <div class="rd-info">
+                <p class="section-eyebrow">Deluxe</p>
+                <h2>Deluxe Suite</h2>
+                <p>A refined retreat with floor-to-ceiling windows, a plush king-size bed, and a stunning marble en-suite. Perfect for couples and business travellers seeking comfort and style.</p>
+                <ul class="rd-features">
+                    <li><i class="fa-solid fa-check"></i> King-size bed</li>
+                    <li><i class="fa-solid fa-check"></i> City view</li>
+                    <li><i class="fa-solid fa-check"></i> Marble bathroom</li>
+                    <li><i class="fa-solid fa-check"></i> Free Wi-Fi</li>
+                    <li><i class="fa-solid fa-check"></i> Room service 24/7</li>
+                </ul>
+                <div class="rd-footer">
+                    <span class="room-price">From £199 <small>/night</small></span>
+                    <a href="{{ url_for('booking') }}?room=deluxe" class="btn-gold">Book This Suite</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="room-detail-card reverse">
+            <div class="rd-image" style="background-image: url('{{ url_for('static', filename='images/room2.webp') }}')"></div>
+            <div class="rd-info">
+                <p class="section-eyebrow">Signature</p>
+                <h2>Presidential Suite</h2>
+                <p>The pinnacle of luxury. Two floors, a private terrace overlooking the city, a dedicated butler, bespoke minibar, and every possible indulgence. An experience unlike any other.</p>
+                <ul class="rd-features">
+                    <li><i class="fa-solid fa-check"></i> Two-floor suite</li>
+                    <li><i class="fa-solid fa-check"></i> Private terrace</li>
+                    <li><i class="fa-solid fa-check"></i> Personal butler</li>
+                    <li><i class="fa-solid fa-check"></i> Panoramic city views</li>
+                    <li><i class="fa-solid fa-check"></i> Bespoke minibar</li>
+                </ul>
+                <div class="rd-footer">
+                    <span class="room-price">From £450 <small>/night</small></span>
+                    <a href="{{ url_for('booking') }}?room=presidential" class="btn-gold">Book This Suite</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

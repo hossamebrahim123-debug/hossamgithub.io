@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings — The Grand{% endblock %}
+{% block content %}
+<section style="padding:120px 60px 80px;background:var(--cream);min-height:80vh;">
+    <div style="max-width:900px;margin:0 auto;">
+        <p class="section-eyebrow">Your Account</p>
+        <h2 style="font-family:var(--font-display);font-size:2.5rem;margin-bottom:48px;">My Bookings</h2>
+        {% if bookings %}
+        {% for booking in bookings %}
+        <div style="background:white;padding:36px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;">
+            <div>
+                <div style="font-size:0.68rem;letter-spacing:3px;color:var(--gold);margin-bottom:6px;text-transform:uppercase;">{{ booking['reference'] }}</div>
+                <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:8px;">{{ booking['room_type'] }}</h3>
+                <div style="font-size:0.85rem;color:var(--text-light);">{{ booking['checkin'] }} → {{ booking['checkout'] }} &nbsp;·&nbsp; {{ booking['guests'] }} guest(s)</div>
+            </div>
+            <div style="text-align:right;">
+                <div style="font-family:var(--font-display);font-size:1.6rem;margin-bottom:8px;">£{{ "%.2f"|format(booking['total_price']) }}</div>
+                <span style="display:inline-block;padding:4px 14px;font-size:0.72rem;letter-spacing:1px;
+                    background:{% if booking['status'] == 'Confirmed' %}#d4edda{% else %}#f8d7da{% endif %};
+                    color:{% if booking['status'] == 'Confirmed' %}#155724{% else %}#721c24{% endif %};">
+                    {{ booking['status'] }}
+                </span>
+                {% if booking['status'] == 'Confirmed' %}
+                <form action="{{ url_for('cancel_booking', booking_id=booking['id']) }}" method="POST" style="margin-top:10px;" onsubmit="return confirm('Are you sure you want to cancel this booking?')">
+                    <button type="submit" style="background:none;border:none;color:#c0392b;cursor:pointer;font-size:0.78rem;text-decoration:underline;">Cancel Booking</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div style="text-align:center;padding:80px;background:white;">
+            <i class="fa-solid fa-calendar-xmark" style="font-size:3rem;color:var(--gold);margin-bottom:20px;display:block;"></i>
+            <p style="color:var(--text-light);margin-bottom:24px;">You have no bookings yet.</p>
+            <a href="{{ url_for('booking') }}" class="btn-gold">Make a Reservation</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

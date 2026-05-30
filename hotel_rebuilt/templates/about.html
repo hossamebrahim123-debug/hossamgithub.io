@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}About — The Grand{% endblock %}
+{% block content %}
+<div class="page-hero" style="background-image: url('{{ url_for('static', filename='images/image1.webp') }}')">
+    <div class="page-hero-overlay"></div>
+    <div class="page-hero-content">
+        <p class="section-eyebrow">Our Story</p>
+        <h1>About <em>The Grand</em></h1>
+    </div>
+</div>
+
+<section style="padding:80px 60px;background:var(--cream);">
+    <div style="max-width:1100px;margin:0 auto;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:80px;">
+            <div>
+                <p class="section-eyebrow">Est. 1920</p>
+                <h2 style="font-family:var(--font-display);font-size:2.5rem;margin-bottom:20px;">A Century of <em>Excellence</em></h2>
+                <p style="color:var(--text-light);line-height:1.9;margin-bottom:16px;">The Grand was founded in 1920 by Sir Edward Harrington, a visionary hotelier who believed that true luxury was not simply about opulence, but about creating an atmosphere where every guest felt genuinely at home. From its very first day, The Grand set a standard that others aspired to reach.</p>
+                <p style="color:var(--text-light);line-height:1.9;margin-bottom:16px;">Over a century later, that founding philosophy remains at the heart of everything we do. We have welcomed heads of state, celebrated artists, business leaders and travellers from every corner of the world — each one leaving with memories they carry for a lifetime.</p>
+                <p style="color:var(--text-light);line-height:1.9;">Today, The Grand continues to evolve while honouring its heritage. Our team of over 200 dedicated professionals work tirelessly to ensure that every stay exceeds expectation.</p>
+            </div>
+            <div>
+                <img src="{{ url_for('static', filename='images/room1.jpg') }}" alt="The Grand Hotel" style="width:100%;height:480px;object-fit:cover;">
+            </div>
+        </div>
+
+        <!-- Values -->
+        <div style="text-align:center;margin-bottom:60px;">
+            <p class="section-eyebrow">What We Stand For</p>
+            <h2 style="font-family:var(--font-display);font-size:2.2rem;">Our Values</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-bottom:80px;">
+            {% for icon, title, desc in [
+                ('fa-crown','Excellence','We hold ourselves to the highest standards in everything we do, from the quality of our suites to the warmth of our service.'),
+                ('fa-heart','Hospitality','Every guest is treated as a cherished individual. We listen, we anticipate, and we deliver beyond expectation.'),
+                ('fa-leaf','Sustainability','We are committed to reducing our environmental impact, using locally sourced ingredients and sustainable practices throughout the hotel.')
+            ] %}
+            <div style="text-align:center;padding:40px 24px;">
+                <div style="width:60px;height:60px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--dark);font-size:1.4rem;"><i class="fa-solid {{ icon }}"></i></div>
+                <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:12px;">{{ title }}</h3>
+                <p style="color:var(--text-light);font-size:0.9rem;line-height:1.8;">{{ desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Location -->
+        <div style="background:white;padding:60px;margin-bottom:0;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+                <div>
+                    <p class="section-eyebrow">Location</p>
+                    <h2 style="font-family:var(--font-display);font-size:2.2rem;margin-bottom:20px;">In the Heart of <em>London</em></h2>
+                    <p style="color:var(--text-light);line-height:1.9;margin-bottom:16px;">The Grand is perfectly positioned at 1 Grand Boulevard, London SW1A 1AA, just moments from some of the city's most iconic landmarks. Buckingham Palace, St James's Park, and the West End are all within easy walking distance.</p>
+                    <p style="color:var(--text-light);line-height:1.9;margin-bottom:24px;">Our central location makes us the ideal base for exploring everything London has to offer, whether you are visiting for business or leisure.</p>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;color:var(--text-light);font-size:0.9rem;"><i class="fa-solid fa-location-dot" style="color:var(--gold);width:16px;"></i> 1 Grand Boulevard, London SW1A 1AA</div>
+                        <div style="display:flex;align-items:center;gap:12px;color:var(--text-light);font-size:0.9rem;"><i class="fa-solid fa-train" style="color:var(--gold);width:16px;"></i> 5 minutes from Victoria Station</div>
+                        <div style="display:flex;align-items:center;gap:12px;color:var(--text-light);font-size:0.9rem;"><i class="fa-solid fa-plane" style="color:var(--gold);width:16px;"></i> 30 minutes from Heathrow Airport</div>
+                        <div style="display:flex;align-items:center;gap:12px;color:var(--text-light);font-size:0.9rem;"><i class="fa-solid fa-car" style="color:var(--gold);width:16px;"></i> Valet parking available on request</div>
+                    </div>
+                </div>
+                <div style="background:var(--cream);padding:32px;text-align:center;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.6875754440754!2d-0.14123892299999998!3d51.50106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604ce3941eb1f%3A0x1a5342fdf089c627!2sBuckingham%20Palace!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk"
+                        width="100%" height="320" style="border:0;border-radius:4px;" allowfullscreen="" loading="lazy"></iframe>
+                    <p style="font-size:0.78rem;color:var(--text-light);margin-top:12px;">1 Grand Boulevard, London SW1A 1AA</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
